@@ -1,6 +1,6 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import SignupForm, BusinessForm
+from .forms import SignUpForm, BusinessForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from .models import Neighbourhood, Profile, Business, Post
@@ -15,7 +15,7 @@ def index(request):
 
 def signup(request):
     if request.method == 'POST':
-        form = SignupForm(request.POST)
+        form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
@@ -24,7 +24,7 @@ def signup(request):
             login(request, user)
             return redirect('index')
     else:
-        form = SignupForm()
+        form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})
 
 

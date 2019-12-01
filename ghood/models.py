@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+import datetime as dt
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
@@ -14,14 +15,14 @@ class Profile(models.Model):
     def __str__(self):
         return f'{self.user.username} profile'
 
-    @receiver(post_save, sender=User)
-    def create_user_profile(sender, instance, created, **kwargs):
-        if created:
-            Profile.objects.create(user=instance)
+    # @receiver(post_save, sender=User)
+    # def create_user_profile(sender, instance, created, **kwargs):
+    #     if created:
+    #         Profile.objects.create(user=instance)
 
-    @receiver(post_save, sender=User)
-    def save_user_profile(sender, instance, **kwargs):
-        instance.profile.save()
+    # @receiver(post_save, sender=User)
+    # def save_user_profile(sender, instance, **kwargs):
+    #     instance.profile.save()
 
 
 class Neighbourhood(models.Model):
@@ -32,11 +33,13 @@ class Neighbourhood(models.Model):
     description = models.TextField()
     healthcenter_number = models.IntegerField(null=True, blank=True)
     police_number = models.IntegerField(null=True, blank=True)
+    occupants_count = models.IntegerField(null=True, blank=True)
+
 
     def __str__(self):
         return f'{self.name} hood'
 
-    def create_neighborhood(self):
+    def save_neighborhood(self):
         self.save()
 
     def delete_neighborhood(self):
@@ -57,7 +60,7 @@ class Business(models.Model):
     def __str__(self):
         return f'{self.name} Business'
 
-    def create_business(self):
+    def save_business(self):
         self.save()
 
     def delete_business(self):
@@ -74,4 +77,12 @@ class Post(models.Model):
 
     def __str__(self):
         return f'{self.title} Post'
+
+    def save_post(self):
+        self.save()
+
+    def delete_post(self):
+        self.delete()
+    
+
 

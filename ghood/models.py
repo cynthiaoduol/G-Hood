@@ -29,7 +29,7 @@ class Neighbourhood(models.Model):
     name = models.CharField(max_length=50)
     location = models.CharField(max_length=60)
     admin = models.ForeignKey("Profile", on_delete=models.CASCADE, related_name='hood')
-    hood_logo = models.ImageField(upload_to='images/')
+    neighbourhood_logo = models.ImageField(upload_to='images/')
     description = models.TextField()
     healthcenter_number = models.IntegerField(null=True, blank=True)
     police_number = models.IntegerField(null=True, blank=True)

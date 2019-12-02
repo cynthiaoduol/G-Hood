@@ -31,12 +31,12 @@ def signup(request):
 def edit_profile(request, username):
     user = User.objects.get(username=username)
     if request.method == 'POST':
-        form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        form = UpdateProfileForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('profile', user.username)
     else:
-        form = UpdateProfileForm(instance=request.user.profile)
+        form = UpdateProfileForm()
     return render(request, 'create_profile.html', {'form': form})
 
 
@@ -64,12 +64,6 @@ def create_neighbourhood(request):
     else:
         form = NeighbourHoodForm()
     return render(request, 'newhood.html', {'form': form})
-
-
-def neighbourhood_members(request, hood_id):
-    hood = Neighbourhood.objects.get(id=hood_id)
-    members = Profile.objects.filter(neighbourhood=hood)
-    return render(request, 'members.html', {'members': members})
 
 
 def join_neighbourhood(request, id):
